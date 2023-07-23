@@ -1,2 +1,2 @@
 # my-social-network
-My Social Network (Insta Clone)
+My Social Network
