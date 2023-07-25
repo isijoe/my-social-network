@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+
+{% block title %}This is a Post{% endblock title %}
+
+{% block content %}
+  <h2>{{ post.caption }}</h2>
+  {% if post.image %}
+    <img src="{{ post.get_image_url }}" alt="{{ post.caption }}'s image">
+  {% endif %}
+  <br>
+<h3><a href="{{ post.user.get_absolute_url }}">@{{ post.user.username }}</a></h3>
+  <br>
+  {% if user.email == post.user.email %}
+    <a href="{% url 'post_edit' post.pk %}">Edit Post</a>
+  {% endif %}
+{% endblock content %}

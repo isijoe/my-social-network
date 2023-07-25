@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.account',
     # Loacal
     'accounts.apps.AccountsConfig',
+    'posts.apps.PostsConfig',
 ]
 
 MIDDLEWARE = [

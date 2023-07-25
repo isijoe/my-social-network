@@ -1,0 +1,34 @@
+{% extends "_base.html" %}
+
+{% block title %}
+    This is you.
+{% endblock title %}
+
+{% block content %}
+    <h2>{{ profile.username }}</h2>
+
+    {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}" alt="{{ profile.username }}'s profile picture">
+    {% endif %}
+
+    <p>First Name: {{ profile.first_name }}</p>
+    <p>Last Name: {{ profile.last_name }}</p>
+    <p>Bio: <br>{{ profile.bio }}</p>
+
+    <br>
+
+    {% if user.email == profile.email %}
+        <a href="{% url 'profile_edit' profile.pk %}">Edit Profile Information</a>
+    {% endif %}
+
+    <hr>
+
+    {% for post in user_posts %}
+        <div class="post">
+            <a href="{{ post.get_absolute_url }}">
+                <img src="{{ post.get_image_url }}" alt="">
+            </a>
+        </div> 
+    {% endfor %}
+{% endblock content %}
+

@@ -12,6 +12,7 @@ pip-delete-this-directory.txt
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+media
 
 # PyBuilder
 .pybuilder/

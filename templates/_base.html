@@ -20,7 +20,11 @@
           <ul class="navbar-nav me-auto mb-2 mb-md-0"> 
             {% if user.is_authenticated %}
               <li class="nav-item">
-              <a class="nav-link" href="{% url 'account_logout' %}">Log Out</a> </li>
+                <a class="nav-link" href="{% url 'account_logout' %}">Log Out</a> 
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile_detail' user.pk %}">Profile</a> 
+              </li>
             {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'account_login' %}">Log In</a> </li>
@@ -28,6 +32,12 @@
                 <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
               </li>
             {% endif %} 
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile_list' %}">Profiles</a> 
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'post_list' %}">Posts</a> 
+              </li>
           </ul>
         </div> 
       </div>

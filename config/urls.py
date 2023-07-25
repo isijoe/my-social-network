@@ -25,7 +25,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # User management
     path('accounts/', include('allauth.urls')),
+    path('accounts/', include('accounts.urls')),
     # Local apps
+    path('posts/', include('posts.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ] + static(
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT

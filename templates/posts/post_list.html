@@ -1,0 +1,12 @@
+{% extends "_base.html" %}
+
+{% block title %}Posts{% endblock title %}
+
+{% block content %}
+{% for post in post_list %}
+  <div>
+    <h2><a href="{{ post.get_absolute_url }}"><img src="{{ post.get_image_url }}" alt=""></a></h2>
+  </div>
+{% endfor %}
+  <a href="{% url 'post_new' %}">+ New Post</a>
+{% endblock content %}
