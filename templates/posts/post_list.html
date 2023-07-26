@@ -3,10 +3,91 @@
 {% block title %}Posts{% endblock title %}
 
 {% block content %}
-{% for post in post_list %}
-  <div>
-    <h2><a href="{{ post.get_absolute_url }}"><img src="{{ post.get_image_url }}" alt=""></a></h2>
-  </div>
-{% endfor %}
   <a href="{% url 'post_new' %}">+ New Post</a>
+  <div class="row">
+    {% for post in post_list %}
+    <div class="col-lg-4">
+      <div id="{{post}}" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <ol class="carousel-indicators">
+            {% for img in post.post_imgs.all %}
+            {% if forloop.first %}
+            <li data-bs-target="#{{post}}" data-bs-slide-to="{{forloop.counter0}}" class="active"></li>
+            {% else %}
+            <li data-bs-target="#{{post}}" data-bs-slide-to="{{forloop.counter0}}"></li>
+            {% endif %}
+            {% endfor %}
+          </ol>
+          {% for img in post.post_imgs.all %}
+          {% if forloop.first %}
+          <div class="carousel-item active">
+            {% else %}
+            <div class="carousel-item">
+              {% endif %}
+              <img id="myImg" class="thumbnail" src="{{ img.get_image_url }}">
+
+            </div>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+              <img class="modal-content" id="img01">
+              <div id="caption"></div>
+            </div>
+            {% endfor %}
+            <!-- </div> -->
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#{{post}}" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#{{post}}" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
+          <div class="box-element">
+            <h6><strong>{{ post.caption|truncatechars:5 }} from {{ post.created_at|date }}</strong></h6>
+            <hr>
+            {% if user.email == post.user.email %}
+          <a href="{% url 'post_delete' post.pk %}"><input type="submit" class="btn btn-danger" value="Delete"></a>
+            </form>
+              <a href="{% url 'post_edit' post.pk %}"><input type="submit" class="btn btn-warning" value="Edit"></a>
+            {% endif %}
+            <!-- <a class="btn btn-outline-success" href="#">View</a> -->
+          <h4 style="display: inline-block; float: right"><strong><a href="{{ post.get_absolute_url }}"> new </a></strong></h4>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  <script>
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    //var img = document.getElementById('myImg');
+    var img = document.getElementsByClassName("thumbnail");
+    console.log(img);
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    for (i = 0; i < img.length; i++) {
+      img[i].onclick = function () {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        modalImg.alt = this.alt;
+        captionText.innerHTML = this.alt;
+      }
+
+
+      // When the user clicks on <span> (x), close the modal
+      modal.onclick = function () {
+        img01.className += " out";
+        setTimeout(function () {
+          modal.style.display = "none";
+          img01.className = "modal-content";
+        }, 400);
+
+      }
+    }
+  </script>
 {% endblock content %}

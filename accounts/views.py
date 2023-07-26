@@ -14,8 +14,7 @@ class UserProfileListView(ListView):
 
 
 # Define a detail view for a single UserProfile object.
-# This view requires that the user be logged in.
-class UserProfileDetailView(LoginRequiredMixin, DetailView):
+class UserProfileDetailView(DetailView):
     model = get_user_model()
     context_object_name = 'profile'
     template_name = 'account/profile_detail.html'

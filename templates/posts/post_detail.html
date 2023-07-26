@@ -1,16 +1,38 @@
 {% extends "_base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}This is a Post{% endblock title %}
 
 {% block content %}
-  <h2>{{ post.caption }}</h2>
-  {% if post.image %}
-    <img src="{{ post.get_image_url }}" alt="{{ post.caption }}'s image">
+  {% if post.caption %}
+    <h2>{{ post.caption }}</h2>
   {% endif %}
+  {% for img in post.post_imgs.all %}
+    <img src="{{ img.get_image_url }}" style="width: 70px; height; 70px;" alt="post's image">
+  {% endfor %}
   <br>
 <h3><a href="{{ post.user.get_absolute_url }}">@{{ post.user.username }}</a></h3>
   <br>
   {% if user.email == post.user.email %}
     <a href="{% url 'post_edit' post.pk %}">Edit Post</a>
   {% endif %}
+
+  <br>
+  <h3>Comments:</h3>
+  {% for comment in comments %}
+    <p>{{ comment.user.username }}: {{ comment.text }}</p>
+  {% endfor %}
+  <form method="post" action="{% url 'post_comment' post.pk %}">
+    {% csrf_token %}
+    {{ comment_form|crispy }}
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Likes:</h3>
+  <p>{{ likes.count }} likes</p>
+  <form method="post" action="{% url 'post_like' post.pk %}">
+    {% csrf_token %}
+    {{ like_form|crispy }}
+    <button type="submit">Like</button>
+  </form>
 {% endblock content %}

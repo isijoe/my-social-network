@@ -8,6 +8,15 @@
   <form class="crispy-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
+    <br><br>
+    {{ formset.management_form }}
+    {% for form in formset %}
+      {% if form.instance.get_image_url %}
+      <p><img src="{{ form.instance.get_image_url }}" style="width: 70px; height; 70px;" alt="No Image">{{ form|crispy }}</p>
+      {% else %}
+        {{ form|crispy }} 
+      {% endif %}
+    {% endfor %}
     <button class="btn btn-success" type="submit">Save changes</button>
   </form>
 {% endblock content %}

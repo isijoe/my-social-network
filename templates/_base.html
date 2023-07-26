@@ -20,10 +20,14 @@
           <ul class="navbar-nav me-auto mb-2 mb-md-0"> 
             {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'account_logout' %}">Log Out</a> 
+              {% if user.profile_picture %}
+                <a class="nav-link" href="{% url 'profile_detail' user.pk %}"><img class="rounded-circle" style="width: 25px; height; 25px;" src="{{ user.get_profile_picture_url }}" alt="Not Found">Profile</a> 
+              {% else %} 
+                <a class="nav-link" href="{% url 'profile_detail' user.pk %}"><img class="rounded-circle" style="width: 25px; height; 25px;" src="{% static 'images/def_prof_pic.jpg' %}" alt="Not Found">Profile</a> 
+              {% endif %}
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'profile_detail' user.pk %}">Profile</a> 
+                <a class="nav-link" href="{% url 'account_logout' %}">Log Out</a> 
               </li>
             {% else %}
               <li class="nav-item">
