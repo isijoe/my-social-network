@@ -81,7 +81,7 @@ class PostEditView(LoginRequiredMixin, UpdateView):
     fields = ['caption']
 
     def get_context_data(self, **kwargs):
-        context = super(PostEditView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
             context['formset'] = PostImageFormSet(
                 self.request.POST, self.request.FILES, instance=self.object
