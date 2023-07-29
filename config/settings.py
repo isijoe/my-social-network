@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     # Third-party
+    'rest_framework',
+    'corsheaders',
     'crispy_forms',
     'crispy_bootstrap5',
     'allauth',
     'allauth.account',
+    # 'dj_rest_auth',
     # Loacal
     'accounts.apps.AccountsConfig',
     'posts.apps.PostsConfig',
@@ -50,6 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -128,6 +132,28 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 ### Third-party config
 
+# rest framework config
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+        #'rest_framework.permissions.IsAuthenticated',
+    ],
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'rest_framework.authentication.SessionAuthentication',
+    #     'rest_framework.authentication.TokenAuthentication',
+    # ]
+}
+# REST_AUTH = {
+#     'SESSION_LOGIN': False # disabling session authentication results in not getting cookies to the client!
+# }
+
+# corsheaders config
+CORS_ALLOWED_ORIGINS = (
+    'http://localhost:3000',
+    'http://localhost:8000',
+    'http://localhost:8001',
+)
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
 # crispy_forms config
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
