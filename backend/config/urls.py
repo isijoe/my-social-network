@@ -19,13 +19,24 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView # just for first commit
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView
+)
 
 urlpatterns = [
     # Django admin
     path('admin/', admin.site.urls),
-    # User management
+    # Third-party
     path('accounts/', include('allauth.urls')),
     path('accounts/', include('accounts.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('api/dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(), name='redoc'),
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(), name='swagger-ui'),
     # Local apps
     path('posts/', include('posts.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),

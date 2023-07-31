@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONBUFFERED 1
 
 # Set work directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/backend
 
 # Install dependencies
 COPY ./requirements.txt .
@@ -15,3 +15,4 @@ RUN pip install -r requirements.txt
 
 # Copy project
 COPY . .
+ENTRYPOINT ["sh", "/usr/src/app/backend/entrypoint.sh"]

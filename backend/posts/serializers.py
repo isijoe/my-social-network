@@ -2,7 +2,7 @@
 from rest_framework import serializers
 
 # Local imports
-from .models import Comment, Like, Post
+from .models import Comment, Like, Post, PostImage
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -27,12 +27,23 @@ class LikeSerializer(serializers.ModelSerializer):
         fields = ['user']
 
 
+class PostImageSerializer(serializers.ModelSerializer):
+    """
+    Serializer for PostImage model.
+    """
+
+    class Meta:
+        model = PostImage
+        fields = ['image']
+
+
 class PostSerializer(serializers.ModelSerializer):
     """
     Serializer for Post model.
     Includes related comments and likes.
     """
     user = serializers.StringRelatedField(many=False) # Represent the user as a string
+    post_imgs = PostImageSerializer(many=True)
     comment_set = CommentSerializer(many=True)
     like_set = LikeSerializer(many=True)
 

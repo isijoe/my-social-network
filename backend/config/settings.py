@@ -40,11 +40,14 @@ INSTALLED_APPS = [
     # Third-party
     'rest_framework',
     'corsheaders',
+    'rest_framework.authtoken',
     'crispy_forms',
     'crispy_bootstrap5',
     'allauth',
     'allauth.account',
-    # 'dj_rest_auth',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'drf_spectacular',
     # Loacal
     'accounts.apps.AccountsConfig',
     'posts.apps.PostsConfig',
@@ -138,10 +141,11 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
         #'rest_framework.permissions.IsAuthenticated',
     ],
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'rest_framework.authentication.SessionAuthentication',
-    #     'rest_framework.authentication.TokenAuthentication',
-    # ]
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 # REST_AUTH = {
 #     'SESSION_LOGIN': False # disabling session authentication results in not getting cookies to the client!
