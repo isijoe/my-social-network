@@ -1,6 +1,7 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 
-from .apis import PostList, PostDetail
+from .apis import PostViewSet
 from .views import (PostListView, 
                     PostDetailView, 
                     PostCreateView, 
@@ -8,6 +9,9 @@ from .views import (PostListView,
                     PostDeleteView,
                     PostCommentView,
                     PostLikeView)
+
+router = DefaultRouter()
+router.register(r'api', PostViewSet)
 
 urlpatterns = [
     path('', PostListView.as_view(), name='post_list'),
@@ -17,9 +21,4 @@ urlpatterns = [
     path('<uuid:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
     path('<uuid:pk>/comment/', PostCommentView.as_view(), name='post_comment'),
     path('<uuid:pk>/like/', PostLikeView.as_view(), name='post_like'),
-
-    # APIViews
-    path('api/', PostList.as_view(), name='api_post_list'),
-    path('api/<uuid:pk>/', PostDetail.as_view(), name='api_post_detail'),
-    # path('api/new/', PostCreate.as_view(), name='api_post_new'),
-]
+] + router.urls

@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SideBar from './SideBar';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Home, Profile, Search, Explore, Messages } from './pages'
+import { Home, Profile, Search, Explore, Messages, Create } from './pages'
 import { useAuth } from './useAuth';
 
 
@@ -34,7 +34,7 @@ function App() {
     },
     {
       path: "/profile/:profileId",
-      element: <Profile />
+      element: <Profile />,
     },
     {
       path: "/search",
@@ -47,6 +47,10 @@ function App() {
     {
       path: "/messages",
       element: <Messages />,
+    },
+    {
+      path: '/create',
+      element: <Create />,
     },
   ]);
 
@@ -67,11 +71,12 @@ function App() {
             <div>
               <input type="text" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
               <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+                <br></br>
               <button onClick={handleLogin}>Login</button>
             </div>
           )}
         </Col>
-        <Col md={9} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <Col md={9} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'top' }}>
           <RouterProvider router={router} />
         </Col>
       </Row>

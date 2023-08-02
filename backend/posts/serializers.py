@@ -1,3 +1,6 @@
+# Django imports
+from django.db import transaction
+
 # DRF imports
 from rest_framework import serializers
 
@@ -44,8 +47,8 @@ class PostSerializer(serializers.ModelSerializer):
     """
     user = serializers.StringRelatedField(many=False) # Represent the user as a string
     post_imgs = PostImageSerializer(many=True)
-    comment_set = CommentSerializer(many=True)
-    like_set = LikeSerializer(many=True)
+    comment_set = CommentSerializer(many=True, required=False)
+    like_set = LikeSerializer(many=True, required=False)
 
     class Meta:
         model = Post
@@ -58,3 +61,13 @@ class PostSerializer(serializers.ModelSerializer):
             'comment_set',
             'like_set',
         ]
+
+    # rolls back all transactions, so if an error occurs after second PostImage 
+    # is created succesfully, both will be removed as well
+    @transaction.atomic
+    def create(self, validated_data):
+        post_imgs_data = validated_data.pop('post_imgs')
+        post = Post.objects.create(**validated_data)
+        for post_img_data in post_imgs_data:
+            PostImage.objects.create(post=post, **post_img_data)
+        return post

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { redirect } from 'react-router';
 
 export const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
 
   const getUserDetails = async (token) => {
@@ -36,18 +39,24 @@ export const useAuth = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
     if (token) {
       setIsLoggedIn(true);
       // Add the logic to fetch user details here
       getUserDetails(token)
         .then((userDetails) => {
+          setLoggedInUserId(userDetails.pk)
           return getUserProfilePicture(userDetails.pk);
         })
         .then((profilePictureUrl) => {
           setProfilePicture(profilePictureUrl.profile_picture);
         }).catch((error) => {
           console.error('Fehler beim Abrufen der Benutzerdetails:', error);
+        }).finally(() => {
+          setIsLoading(false);
         });
+    } else {
+      setIsLoading(false);
     }
   }, []);
 
@@ -84,5 +93,5 @@ export const useAuth = () => {
     setProfilePicture(null); // clear the profile picture on logout
   };
 
-  return { isLoggedIn, loginUser, logoutUser, profilePicture };
+  return { isLoggedIn, isLoading, loginUser, logoutUser, loggedInUserId, profilePicture };
 };

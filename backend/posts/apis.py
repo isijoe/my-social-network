@@ -1,8 +1,5 @@
-# Django imports
-from django.contrib.auth import get_user_model
-
 # DRF imports
-from rest_framework import generics
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 # Local imports
@@ -11,26 +8,23 @@ from .serializers import PostSerializer
 from .permissions import IsOwnerOrReadOnly
 
 
-class PostList(generics.ListCreateAPIView):
+class PostViewSet(viewsets.ModelViewSet):
     """
-    API view to retrieve list of posts or create new post.
-    Only authenticated users can create new posts.
-    """
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    permission_classes = [
-        IsAuthenticatedOrReadOnly, # If user is authenticated, read and write permissions are allowed
-    ]
-
-
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-    """
-    API view to retrieve, update or delete a post.
-    Only the owner of the post can perform actions.
+    API viewset for viewing, creating, updating and deleting post instances.
+    Only authenticated users can perform actions.
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [
-        # IsAuthenticatedOrReadOnly, 
-        IsOwnerOrReadOnly # If user is owner, read and write permissions are allowed
-    ]
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the lsit of permission that this view requires.
+        """
+        if self.action in ['update', 'partial_update', 'destroy']:
+            permission_classes = [IsOwnerOrReadOnly]
+        else:
+            permission_classes = [IsAuthenticatedOrReadOnly]
+        return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
