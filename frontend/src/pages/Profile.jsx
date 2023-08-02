@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useParams } from 'react-router';
 import { useAuth } from '../useAuth';
+import Create from './Create';
 
 
 const Profile = ({ }) => {
@@ -15,13 +16,14 @@ const Profile = ({ }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   let { profileId } = useParams();
   const API = 'http://localhost:8000/accounts/api/';
+  const [modalShow, setModalShow] = useState(false);
 
 
   const getData = useCallback(async () => {
     const profileResponse = await fetch(API + profileId);
     const profileData = await profileResponse.json();
     setProfile(profileData);
-    if (isLoggedIn) {
+    if (isLoggedIn && profileId != loggedInUserId) {
       const token = localStorage.getItem('token');
       const isFollowingResponse = await fetch(API + `${profileId}/is_following/`, {
         headers: {
@@ -32,7 +34,7 @@ const Profile = ({ }) => {
       setIsFollowing(isFollowingData.isFollowing);
     }
     // console.log(profileData)
-  }, [loggedInUserId]);
+  }, [loggedInUserId, profile]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -62,6 +64,19 @@ const Profile = ({ }) => {
     }
   }
 
+  const deletePost = async (postId) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`http://localhost:8000/posts/api/${postId}/`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Token ${token}`
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Problem beim Entfernen des Beitrags.');
+    }
+  }
+
   return (
     <Container className='mt-3'>
       {profile &&
@@ -86,6 +101,8 @@ const Profile = ({ }) => {
           <div>
           <h5><a href={`/profile_edit/${profile.id}`}>+ Edit Profile Information</a></h5>
           <h5><a href={`/create`}>+ New Post</a></h5>
+          <Button variant="primary" onClick={() => setModalShow(true)}>+ New Post</Button>
+                  <Create show={modalShow} onHide={() => setModalShow(false)} />
           </div>
           }
           <br />
@@ -113,7 +130,7 @@ const Profile = ({ }) => {
                   <hr />
                   {(isLoggedIn) && (loggedInUserId == profileId) &&
                   <div>
-                    <Button variant="danger" href={`/post_delete/${post.id}`}>Delete</Button>
+                    <Button variant="danger" onClick={() => deletePost(post.id)}>Delete</Button>
                     <Button variant="warning" href={`/post_edit/${post.id}`}>Edit</Button>
                   </div>
                   }

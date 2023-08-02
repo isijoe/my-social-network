@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { redirect } from 'react-router';
 
 export const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

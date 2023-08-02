@@ -1,6 +1,8 @@
 # DRF imports
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 # Local imports
 from .models import Post
@@ -18,7 +20,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """
-        Instantiates and returns the lsit of permission that this view requires.
+        Instantiates and returns the list of permission that this view requires.
         """
         if self.action in ['update', 'partial_update', 'destroy']:
             permission_classes = [IsOwnerOrReadOnly]
@@ -28,3 +30,11 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    @action(detail=False, methods=['get'])
+    def followed(self, request, *args, **kwargs):
+        user = request.user
+        following_users = user.following.all()
+        followed_posts = Post.objects.filter(user__in=following_users)
+        serializer = self.get_serializer(followed_posts, many=True)
+        return Response(serializer.data)

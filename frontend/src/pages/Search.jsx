@@ -6,11 +6,6 @@ import { useAuth } from '../useAuth';
 const Search = () => {
   const { isLoggedIn, isLoading } = useAuth();
   const [search, setSearch] = useState(null);
-  useEffect(() => {
-    if (!isLoading) {
-    getData();
-    }
-  }, [isLoggedIn, isLoading]);
 
   const getData = useCallback(async () => {
     let searchResponse;
@@ -29,10 +24,15 @@ const Search = () => {
     // console.log(searchData)
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    if (!isLoading) {
+    getData();
+    }
+  }, [isLoading, getData]);
+
   if (!search) {
     return <div>Loading...</div>
   }
-
   return (
     <Container className="mt-3">
       {search && search.map((profile) =>
