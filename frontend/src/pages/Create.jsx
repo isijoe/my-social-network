@@ -46,24 +46,24 @@ const Create = (props) => {
       dialogClassName="modal-90h"
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      >
+    >
       <Modal.Header closeButton>
         <Modal.Title id="cotained-modal-title-vcenter">
           Create New Post
-          </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-    <div>
-      <input type="text" value={caption} onChange={e => setCaption(e.target.value)} />
-          <br/>
-      <input type="file" multiple onChange={handleImageChange} />
-          <br/>
-      <button onClick={createPost}>Create Post</button>
-    </div>
-    </Modal.Body>
-    <Modal.Footer>
-    <Button onClick={props.onHide}>Close</Button>
-    </Modal.Footer>
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div>
+          <input type="text" value={caption} onChange={e => setCaption(e.target.value)} />
+          <br />
+          <input type="file" multiple onChange={handleImageChange} />
+          <br />
+          <button onClick={createPost}>Create Post</button>
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
     </Modal>
   );
 };

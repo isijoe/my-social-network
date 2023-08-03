@@ -38,7 +38,7 @@ const Profile = ({ }) => {
 
   useEffect(() => {
     if (!isLoading) {
-    getData();
+      getData();
     }
   }, [isLoading, getData]);
 
@@ -81,65 +81,65 @@ const Profile = ({ }) => {
     <Container className='mt-3'>
       {profile &&
         <>
-        <Row md={3}>
-          <Col>
-          <img className="rounded-circle" style={{ width: "150px", height: "150px" }}
-            src={profile.profile_picture ? profile.profile_picture : 'images/def_prof_pic.jpg'}
-            alt={`${profile.username}'s profile picture`}
-          />
-          </Col>
-          <Col>
-          <h2>{profile.username}</h2>
-          <p>Bio: <br />{profile.bio}</p>
+          <Row md={3}>
+            <Col>
+              <img className="rounded-circle" style={{ width: "150px", height: "150px" }}
+                src={profile.profile_picture ? profile.profile_picture : 'images/def_prof_pic.jpg'}
+                alt={`${profile.username}'s profile picture`}
+              />
+            </Col>
+            <Col>
+              <h2>{profile.username}</h2>
+              <p>Bio: <br />{profile.bio}</p>
 
-          <h3>Follower: </h3>
-          <p>{profile.followers}</p>
-          {(isLoggedIn) && (loggedInUserId != profileId) &&
-            <Button onClick={() => followUser(profileId)}>{isFollowing ? 'Unfollow' : 'Follow'}</Button>
-          }
-          {(isLoggedIn) && (loggedInUserId == profileId) &&
-          <div>
-          <h5><a href={`/profile_edit/${profile.id}`}>+ Edit Profile Information</a></h5>
-          <h5><a href={`/create`}>+ New Post</a></h5>
-          <Button variant="primary" onClick={() => setModalShow(true)}>+ New Post</Button>
+              <h3>Follower: </h3>
+              <p>{profile.followers}</p>
+              {(isLoggedIn) && (loggedInUserId != profileId) &&
+                <Button onClick={() => followUser(profileId)}>{isFollowing ? 'Unfollow' : 'Follow'}</Button>
+              }
+              {(isLoggedIn) && (loggedInUserId == profileId) &&
+                <div>
+                  <h5><a href={`/profile_edit/${profile.id}`}>+ Edit Profile Information</a></h5>
+                  <h5><a href={`/create`}>+ New Post</a></h5>
+                  <Button variant="primary" onClick={() => setModalShow(true)}>+ New Post</Button>
                   <Create show={modalShow} onHide={() => setModalShow(false)} />
-          </div>
-          }
-          <br />
-          </Col>
+                </div>
+              }
+              <br />
+            </Col>
           </Row>
           <Row xs={9}>
-          <div className="row">
-            {profile.post_set.map((post) =>
-              <div className="col-lg-4" key={post.id}>
-                <Carousel>
-                  {post.post_imgs.map((image, index) =>
-                    <Carousel.Item key={index}>
-                      <img
-                        className="thumbnail"
-                        style={{ width: "200px", height: "200px" }}
-                        src={image.image}
-                        alt={image.alt}
-                      // onClick={() => setSelectedImage(image.image)}
-                      />
-                    </Carousel.Item>
-                  )}
-                </Carousel>
-                <div className="box-element">
-                  <h6><strong>{post.caption.slice(0, 5)} from {new Date(post.created_at).toLocaleDateString()}</strong></h6>
-                  <hr />
-                  {(isLoggedIn) && (loggedInUserId == profileId) &&
-                  <div>
-                    <Button variant="danger" onClick={() => deletePost(post.id)}>Delete</Button>
-                    <Button variant="warning" href={`/post_edit/${post.id}`}>Edit</Button>
+            <div className="row">
+              {profile.post_set.map((post) =>
+                <div className="col-lg-4" key={post.id}>
+                  <Carousel>
+                    {post.post_imgs.map((image, index) =>
+                      <Carousel.Item key={index}>
+                        <img
+                          className="thumbnail"
+                          style={{ width: "200px", height: "200px" }}
+                          src={image.image}
+                          alt={image.alt}
+                        // onClick={() => setSelectedImage(image.image)}
+                        />
+                      </Carousel.Item>
+                    )}
+                  </Carousel>
+                  <div className="box-element">
+                    <h6><strong>{post.caption.slice(0, 5)} from {new Date(post.created_at).toLocaleDateString()}</strong></h6>
+                    <hr />
+                    {(isLoggedIn) && (loggedInUserId == profileId) &&
+                      <div>
+                        <Button variant="danger" onClick={() => deletePost(post.id)}>Delete</Button>
+                        <Button variant="warning" href={`/post_edit/${post.id}`}>Edit</Button>
+                      </div>
+                    }
+                    <h4 style={{ display: 'inline-block', float: 'right' }}><strong> new </strong></h4>
                   </div>
-                  }
-                  <h4 style={{ display: 'inline-block', float: 'right' }}><strong> new </strong></h4>
                 </div>
-              </div>
-            )}
-          </div>
-        </Row>
+              )}
+            </div>
+          </Row>
         </>
       }
     </Container>

@@ -31,7 +31,7 @@ const Home = () => {
     <div>
       <h1>Show recent posts uploaded by followings</h1>
       {(posts) && posts.map((post) =>
-        <div style={{ width: '470px', margin: '0 auto'}} key={post.id}>
+        <div style={{ width: '470px', margin: '0 auto' }} key={post.id}>
           <Carousel>
             {post.post_imgs.map((image, index) =>
               <Carousel.Item key={index}>
