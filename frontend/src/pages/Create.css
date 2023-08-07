@@ -8,6 +8,22 @@
   width: 80vw;
 }
 
+.form-control[type='file'] {
+  color: green;
+  background-color: darkgray;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.custom-file-upload input[type='file'] {
+    display: none;
+}
+
 .modal-90h .modal-body {
   height: 30vh;
 }
+

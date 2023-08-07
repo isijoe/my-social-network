@@ -27,7 +27,7 @@ from drf_spectacular.views import (
 
 urlpatterns = [
     # Django admin
-    path('admin/', admin.site.urls),
+    path(settings.ADMIN_URL, admin.site.urls),
     # Third-party
     path('accounts/', include('allauth.urls')),
     path('accounts/', include('accounts.urls')),

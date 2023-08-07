@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 # Local imports
-from .models import Post
+from .models import Post, Comment, Like
 from .serializers import PostSerializer
 from .permissions import IsOwnerOrReadOnly
 
@@ -35,6 +35,33 @@ class PostViewSet(viewsets.ModelViewSet):
     def followed(self, request, *args, **kwargs):
         user = request.user
         following_users = user.following.all()
-        followed_posts = Post.objects.filter(user__in=following_users)
+        followed_posts = Post.objects.filter(user__in=following_users).order_by('-created_at')
         serializer = self.get_serializer(followed_posts, many=True)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def like(self, request, *args, **kwargs):
+        user = request.user
+        post = self.get_object()
+        like, created = Like.objects.get_or_create(user=user, post=post)
+
+        if not created:
+            like.delete()
+            return Response({"message": "Post unliked"})
+
+        return Response({"message": "Post liked"})
+
+    @action(detail=True, methods=['post'])
+    def comment(self, request, *args, **kwargs):
+        user = request.user
+        post = self.get_object()
+
+        text = request.data.get('text', '').strip()
+
+        if not text:
+            return Response({"error": "Comment text is required."})
+
+        Comment.objects.create(user=user, post=post, text=text)
+
+        return Response({"message": "Comment added."})
+

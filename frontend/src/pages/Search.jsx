@@ -4,25 +4,20 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../useAuth';
 import './Search.css';
 
-const options = [
-  {
-    name: 'Both',
-    scroll: true,
-    backdrop: true,
-  },
-]
 const Search = (props) => {
   const { isLoggedIn, isLoading } = useAuth();
   const [search, setSearch] = useState(null);
   const [searchText, setSearchText] = useState("");
 
+  const url = `http://localhost:8000/accounts/api/?search=${searchText}`;
+
   const getData = useCallback(async () => {
     let searchResponse;
 
     if (!isLoggedIn) {
-      searchResponse = await fetch('http://localhost:8000/accounts/api/')
+      searchResponse = await fetch(url)
     } else {
-      searchResponse = await fetch('http://localhost:8000/accounts/api/', {
+      searchResponse = await fetch(url, {
         headers: {
           'Authorization': `Token ${localStorage.getItem('token')}`
         }
@@ -31,7 +26,7 @@ const Search = (props) => {
     const searchData = await searchResponse.json()
     setSearch(searchData)
     // console.log(searchData)
-  }, [isLoggedIn]);
+  }, [isLoggedIn, searchText]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -43,7 +38,6 @@ const Search = (props) => {
     return <div>Loading...</div>
   }
 
-  const handleSearch = () => console.log(searchText)
 
   return (
     <Offcanvas {...props} scroll='true'>
@@ -54,7 +48,6 @@ const Search = (props) => {
         <Container className="mt-3">
           <Form className="d-flex">
             <Form.Control type="search" value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Search" className="me-2" aria-label="Search" />
-            <Button variant="outine-success" onClick={handleSearch}>Search</Button>
           </Form>
           {search && search.map((profile) =>
             <Button className="btn-nav" key={profile.id}><Link to={`/profile/${profile.id}/`} onClick={props.onHide}>

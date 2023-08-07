@@ -11,3 +11,5 @@ crispy-bootstrap5
 django-allauth==0.54.0
 environs[django]
 pillow
+whitenoise
+gunicorn

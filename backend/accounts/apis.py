@@ -2,7 +2,7 @@
 from django.contrib.auth import get_user_model
 
 # DRF imports
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -16,6 +16,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     """
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['username', 'email']
 
     def get_queryset(self):
         # Exclude the authenticated user from the returned query
