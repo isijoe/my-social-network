@@ -7,26 +7,26 @@ const Create = (props) => {
   const [caption, setCaption] = useState("");
   const [images, setImages] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
-  const API = 'http://localhost:8000/posts/api/';
+  const API = process.env.REACT_APP_API || 'http://localhost/api/'
 
   const createPost = async () => {
-    const token = localStorage.getItem('token');
-
     const formData = new FormData();
     formData.append('caption', caption);
     images.forEach((image, index) => {
       formData.append(`post_imgs[${index}]image`, image);
     });
 
-    const response = await fetch(API, {
+    const response = await fetch(`${API}posts/api/`, {
+      credentials: 'include',
       method: 'POST',
       headers: {
-        'Authorization': `Token ${token}`
+        'Authorization': `Token ${localStorage.getItem('token')}`,
       },
       body: formData,
     });
 
     if (!response.ok) {
+      console.log(localStorage.getItem('token'));
       const errorData = await response.json(); // Get additional information from the server's response
       console.error('Problem beim Erstellen des Beitrags', errorData);
       throw new Error('Problem beim Erstellen des Beitrags');
@@ -40,7 +40,6 @@ const Create = (props) => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    // setImages([...images, ...files]);
     setImages(prevImages => [...prevImages, ...files]);
     const urls = files.map(file => URL.createObjectURL(file));
     setPreviewUrls(prevUrls => [...prevUrls, ...urls]);

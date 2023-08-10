@@ -5,26 +5,24 @@ import Comment from './Comment';
 import './Home.css';
 
 const Home = () => {
-  const { isLoggedIn, isLoading, loggedInUserId } = useAuth();
+  const { isLoggedIn, isLoading } = useAuth();
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [modalCommentShow, setModalCommentShow] = useState(null);
-  const API = 'http://localhost:8000/posts/api/followed/';
+  const API = process.env.REACT_APP_API || 'http://localhost/api/'
 
   const getData = useCallback(async () => {
     if (isLoggedIn) {
       const token = localStorage.getItem('token');
-      const followingsResponse = await fetch(API, {
+      const followingsResponse = await fetch(`${API}posts/api/followed/`, {
         headers: {
           'Authorization': `Token ${token}`
         }
       });
       const followingData = await followingsResponse.json();
       setPosts(followingData);
-      // console.log(posts[0])
-      // console.log(followingData);
     }
-  }, [loggedInUserId, posts]);
+  }, [API, isLoggedIn]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -33,7 +31,7 @@ const Home = () => {
   }, [isLoading, getData]);
 
   const handleLike = async (postId) => {
-    const likeResponse = await fetch(`http://localhost:8000/posts/api/${postId}/like/`, {
+    const likeResponse = await fetch(`${API}posts/api/${postId}/like/`, {
       method: 'POST',
       headers: {
         'Authorization': `Token ${localStorage.getItem('token')}`
@@ -49,7 +47,7 @@ const Home = () => {
   }
 
   const handleKeyPress = (e) => {
-    if (e.charCode == 13) {
+    if (e.charCode === 13) {
       alert(e.target.value);
     }
   }
@@ -89,7 +87,7 @@ const Home = () => {
           <Card border="info" style={{ width: '470px', margin: '0 auto' }}>
             <Card.Header as="h3" className="header-card">
               <div>
-                <img src={post.user} className="rounded-circle" style={{ width: '30px', height: '30px' }} />
+                <img src={post.user} alt="" className="rounded-circle" style={{ width: '30px', height: '30px' }} />
                 @{post.user}
               </div>
               {getTimeSince(new Date(post.created_at))}
@@ -97,13 +95,12 @@ const Home = () => {
             <Card.Body>
               <Carousel>
                 {post.post_imgs.map((image, index) =>
-                  <Carousel.Item key={index}>
+                  <Carousel.Item key={image.id || image.image}>
                     <img
                       className="thumbnail"
                       style={{ width: "470px", height: "470px" }}
                       src={image.image}
                       alt={image.alt}
-                    // onClick={() => setSelectedImage(image.image)}
                     />
                   </Carousel.Item>
                 )}

@@ -24,7 +24,8 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+# ALLOWED_HOSTS = ['backend', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', 'No env variables given').split(' ')
 
 SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=True)
 SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS', default=2592000)
@@ -32,6 +33,8 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('SECURE_HSTS_INCLUDE_SUBDOMAINS', defa
 SECURE_HSTS_PRELOAD = env.bool('SECURE_HSTS_PRELOAD', default=True)
 SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', default=True)
 CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE', default=True)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', env.str('SECURE_PROXY_SSL_HEADER'))
+USE_X_FORWARDED_HOST = True
 
 ADMIN_URL = env.str('ADMIN_URL', default='admin/')
 
@@ -162,12 +165,9 @@ REST_FRAMEWORK = {
 # }
 
 # corsheaders config
-CORS_ALLOWED_ORIGINS = (
-    'http://localhost:3000',
-    'http://localhost:8000',
-    'http://localhost:8001',
-)
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = env.str('CORS_ALLOWED_ORIGINS', 'No env variables given').split(' ')
+CSRF_TRUSTED_ORIGINS = env.str('CSRF_TRUSTED_ORIGINS', 'No env variables given').split(' ')
 # crispy_forms config
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'

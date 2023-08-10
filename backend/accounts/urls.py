@@ -8,6 +8,7 @@ from .views import (
     UserProfileEditView,
     UserProfileFollowView
 )
+from .views import test_scheme
 
 
 router = DefaultRouter()
@@ -18,4 +19,5 @@ urlpatterns = [
     path('profile/<uuid:pk>/', UserProfileDetailView.as_view(), name='profile_detail'),
     path('profile/<uuid:pk>/edit/', UserProfileEditView.as_view(), name='profile_edit'),
     path('profile/<uuid:pk>/follow/', UserProfileFollowView.as_view(), name='profile_follow'),
+    path('profile/test-scheme/', test_scheme, name='test_scheme'),
 ] + router.urls

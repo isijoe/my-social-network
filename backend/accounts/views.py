@@ -4,9 +4,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, UpdateView
 from django.views import View
 # from django.urls import reverse
-
+from django.conf import settings
 from posts.models import Post
 
+from django.http import JsonResponse
+
+def test_scheme(request):
+    response_data = dict(request.headers)
+    response_data['SECURE_PROXY_SSL_HEADER'] = settings.SECURE_PROXY_SSL_HEADER
+    response_data['SECURE_SSL_REDIRECT'] = settings.SECURE_SSL_REDIRECT
+    response_data['SCHEME'] = request.scheme
+    response_data['CORS_ALLOWED_ORIGINS'] = settings.CORS_ALLOWED_ORIGINS
+    response_data['CSRF_TRUSTED_ORIGINS'] = settings.CSRF_TRUSTED_ORIGINS
+    return JsonResponse(response_data)
 
 # Define a list view for UserProfile objects.
 class UserProfileListView(ListView):

@@ -20,8 +20,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     search_fields = ['username', 'email']
 
     def get_queryset(self):
-        # Exclude the authenticated user from the returned query
-        return get_user_model().objects.exclude(pk=self.request.user.pk)
+        if self.action == 'list':
+            # Exclude the authenticated user from the returned query
+            return get_user_model().objects.exclude(pk=self.request.user.pk)
+        return get_user_model().objects.all()
 
     @action(detail=True, methods=['post'])
     def follow(self, request, pk=None):

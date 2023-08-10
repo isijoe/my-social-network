@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Modal, Carousel, Form, Button, Col, Container, Row } from 'react-bootstrap';
 
 const Comment = (props) => {
-
+  const API = process.env.REACT_APP_API || 'http://localhost/api/'
 
   const handleKeyPress = async (e) => {
-    if (e.charCode == 13) {
-      // alert(e.target.value);
+    if (e.charCode === 13) {
       const token = localStorage.getItem('token');
 
       const formData = new FormData();
       formData.append('text', e.target.value);
 
-      const response = await fetch(`http://localhost:8000/posts/api/${props.post.id}/comment/`, {
+      const response = await fetch(`${API}posts/api/${props.post.id}/comment/`, {
         method: 'POST',
         headers: {
           'Authorization': `Token ${token}`
@@ -32,7 +31,6 @@ const Comment = (props) => {
   return (
     <Modal
       {...props}
-      // dialogClassName="modal-90h"
       centered
       fullscreen
     >

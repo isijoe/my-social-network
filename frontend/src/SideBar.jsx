@@ -58,7 +58,7 @@ const SideBar = () => {
                 <Button className="btn-nav"><Link to={profileUrl}>
                   <img className="rounded-circle" style={{ width: "30px", height: "30px" }}
                     src={profilePicture ? profilePicture : 'images/def_prof_pic.jpg'}
-                    alt={`'s profile picture`}
+                    alt=""
                   />
                   Profile</Link></Button>
               }

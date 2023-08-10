@@ -9,7 +9,8 @@ const Search = (props) => {
   const [search, setSearch] = useState(null);
   const [searchText, setSearchText] = useState("");
 
-  const url = `http://localhost:8000/accounts/api/?search=${searchText}`;
+  const API = process.env.REACT_APP_API || 'http://localhost/api/'
+  const url = `${API}accounts/api/?search=${searchText}`;
 
   const getData = useCallback(async () => {
     let searchResponse;
@@ -25,14 +26,13 @@ const Search = (props) => {
     }
     const searchData = await searchResponse.json()
     setSearch(searchData)
-    // console.log(searchData)
-  }, [isLoggedIn, searchText]);
+  }, [isLoggedIn, url]);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && searchText) {
       getData();
     }
-  }, [isLoading, getData]);
+  }, [isLoading, getData, searchText]);
 
   if (!search) {
     return <div>Loading...</div>
@@ -54,7 +54,7 @@ const Search = (props) => {
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img className="rounded-circle" style={{ width: "70px", height: "70px", marginRight: '10px' }}
                   src={profile.profile_picture ? profile.profile_picture : 'images/def_prof_pic.jpg'}
-                  alt={`${profile.username}'s profile picture`}
+                  alt=""
                 />
                 <h2>{profile.username}</h2>
               </div>

@@ -43,13 +43,25 @@ services:
       - staticfiles:/usr/src/app/backend/staticfiles
       - mediafiles:/usr/src/app/backend/media
       - frontend:/var/www/frontend
-      - ./certbot/nginx/conf:/etc/nginx/conf.d/:ro
+      - ./certbot/nginx/conf:/etc/conf.d/:rw
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf:/etc/letsencrypt/:ro
+      # - ./certbot/conf:/etc/nginx/ssl/:ro
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - frontend
       - backend
     restart: always
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/www:/var/www/certbot/:rw
+      - ./certbot/conf:/etc/letsencrypt/:rw
+      - ./certbot/start.sh:/start.sh
+    entrypoint: "/bin/sh /start.sh"
 
 volumes:
   postgres_data:
