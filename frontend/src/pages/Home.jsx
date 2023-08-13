@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../useAuth';
+import { fetchWithToken } from '../apiUtils';
 import { Carousel, Card, Button, Container, Row, Col, Form } from 'react-bootstrap';
 import Comment from './Comment';
 import './Home.css';
@@ -13,12 +14,7 @@ const Home = () => {
 
   const getData = useCallback(async () => {
     if (isLoggedIn) {
-      const token = localStorage.getItem('token');
-      const followingsResponse = await fetch(`${API}posts/api/followed/`, {
-        headers: {
-          'Authorization': `Token ${token}`
-        }
-      });
+      const followingsResponse = await fetchWithToken(`${API}posts/api/followed/`);
       const followingData = await followingsResponse.json();
       setPosts(followingData);
     }
@@ -31,11 +27,8 @@ const Home = () => {
   }, [isLoading, getData]);
 
   const handleLike = async (postId) => {
-    const likeResponse = await fetch(`${API}posts/api/${postId}/like/`, {
+    const likeResponse = await fetchWithToken(`${API}posts/api/${postId}/like/`, {
       method: 'POST',
-      headers: {
-        'Authorization': `Token ${localStorage.getItem('token')}`
-      }
     });
     const likeData = await likeResponse.json()
     console.log(likeData)

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Container, Offcanvas, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../useAuth';
+import { fetchWithToken } from "../apiUtils";
 import './Search.css';
 
 const Search = (props) => {
@@ -9,23 +10,19 @@ const Search = (props) => {
   const [search, setSearch] = useState(null);
   const [searchText, setSearchText] = useState("");
 
-  const API = process.env.REACT_APP_API || 'http://localhost/api/'
+  const API = process.env.REACT_APP_API || 'http://localhost/api/';
   const url = `${API}accounts/api/?search=${searchText}`;
 
   const getData = useCallback(async () => {
     let searchResponse;
 
     if (!isLoggedIn) {
-      searchResponse = await fetch(url)
+      searchResponse = await fetch(url);
     } else {
-      searchResponse = await fetch(url, {
-        headers: {
-          'Authorization': `Token ${localStorage.getItem('token')}`
-        }
-      });
+      searchResponse = await fetchWithToken(url);
     }
-    const searchData = await searchResponse.json()
-    setSearch(searchData)
+    const searchData = await searchResponse.json();
+    setSearch(searchData);
   }, [isLoggedIn, url]);
 
   useEffect(() => {
@@ -34,9 +31,9 @@ const Search = (props) => {
     }
   }, [isLoading, getData, searchText]);
 
-  if (!search) {
-    return <div>Loading...</div>
-  }
+  // if (!search) {
+  //   return <div>Loading...</div>
+  // }
 
 
   return (

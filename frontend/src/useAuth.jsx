@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { fetchWithToken } from './apiUtils';
 
 export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,11 +10,7 @@ export const useAuth = () => {
 
   const getUserDetails = useCallback(async () => {
     try {
-      const response = await fetch(`${API}api/dj-rest-auth/user/`, {
-        headers: {
-          'Authorization': `Token ${localStorage.getItem('token')}`
-        }
-      });
+      const response = await fetchWithToken(`${API}api/dj-rest-auth/user/`);
       if (response.status === 401) {
         setIsLoggedIn(false);
         localStorage.removeItem('token');

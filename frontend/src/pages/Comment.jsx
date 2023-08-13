@@ -1,21 +1,17 @@
 import React from "react";
 import { Modal, Carousel, Form, Button, Col, Container, Row } from 'react-bootstrap';
+import { fetchWithToken } from '../apiUtils';
 
 const Comment = (props) => {
   const API = process.env.REACT_APP_API || 'http://localhost/api/'
 
   const handleKeyPress = async (e) => {
     if (e.charCode === 13) {
-      const token = localStorage.getItem('token');
-
       const formData = new FormData();
       formData.append('text', e.target.value);
 
-      const response = await fetch(`${API}posts/api/${props.post.id}/comment/`, {
+      const response = await fetchWithToken(`${API}posts/api/${props.post.id}/comment/`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Token ${token}`
-        },
         body: formData,
       });
 

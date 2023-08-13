@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Carousel } from 'react-bootstrap';
+import { fetchWithToken } from "../apiUtils";
 import './Create.css';
 
 
@@ -16,20 +17,16 @@ const Create = (props) => {
       formData.append(`post_imgs[${index}]image`, image);
     });
 
-    const response = await fetch(`${API}posts/api/`, {
+    const response = await fetchWithToken(`${API}posts/api/`, {
       credentials: 'include',
       method: 'POST',
-      headers: {
-        'Authorization': `Token ${localStorage.getItem('token')}`,
-      },
       body: formData,
     });
 
     if (!response.ok) {
       console.log(localStorage.getItem('token'));
       const errorData = await response.json(); // Get additional information from the server's response
-      console.error('Problem beim Erstellen des Beitrags', errorData);
-      throw new Error('Problem beim Erstellen des Beitrags');
+      console.error("Error creating post.", errorData);
     }
 
     // Clear the caption and images after post is created
