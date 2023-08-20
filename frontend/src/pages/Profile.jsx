@@ -2,10 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Carousel, Button, Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useParams, Link } from 'react-router-dom';
-import { useAuth } from '../useAuth';
+import { useAuth } from '../authProvider';
 import { fetchWithToken } from '../apiUtils';
 import Create from './Create';
-
 
 const Profile = () => {
   const { isLoggedIn, isLoading, loggedInUserId } = useAuth();

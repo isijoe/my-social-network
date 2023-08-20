@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Carousel, Form, Button, Col, Container, Row } from 'react-bootstrap';
 import { fetchWithToken } from '../apiUtils';
 
 const Comment = (props) => {
   const API = process.env.REACT_APP_API || 'http://localhost/api/'
+  const [post, setPost] = useState(props.post)
 
   const handleKeyPress = async (e) => {
     if (e.charCode === 13) {
       const formData = new FormData();
       formData.append('text', e.target.value);
 
-      const response = await fetchWithToken(`${API}posts/api/${props.post.id}/comment/`, {
+      const response = await fetchWithToken(`${API}posts/api/${post.id}/comment/`, {
         method: 'POST',
         body: formData,
       });
@@ -20,6 +21,9 @@ const Comment = (props) => {
         console.error('Problem beim Erstellen eines Kommentars', errorData);
       } else {
         e.target.value = '';
+        const response = await fetchWithToken(`${API}posts/api/${post.id}/`);
+        const responseData = await response.json();
+        setPost(responseData);
       }
     }
   };
@@ -40,7 +44,7 @@ const Comment = (props) => {
           <Row>
             <Col>
               <Carousel>
-                {props.post.post_imgs.map((url, index) => (
+                {post.post_imgs.map((url, index) => (
                   <Carousel.Item key={index}>
                     <img className="d-block w-100" src={url.image} alt="First slide" />
                   </Carousel.Item>
@@ -52,7 +56,7 @@ const Comment = (props) => {
                 <h2>@{props.post.user}</h2>
               </Row>
               <Row style={{ overflowY: 'auto', maxHeight: '200px' }}>
-                {props.post.comment_set.map((comment) => (
+                {post.comment_set.map((comment) => (
 
                   <h6 key={comment.id}><b>{comment.user}</b> {comment.text}</h6>
                 ))}
@@ -65,7 +69,6 @@ const Comment = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button className="btn" >Comment</Button>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
