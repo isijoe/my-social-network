@@ -50,7 +50,7 @@ const SideBar = () => {
           <div>
             <Button className="btn-nav" onClick={handleLogout}>Logout</Button>
           </div>
-          <Button className="btn-nav justify-content-end">More</Button>
+          {/* <Button className="btn-nav justify-content-end">More</Button> */}
         </Col>
         {showSearch &&
           <Col md={9}>

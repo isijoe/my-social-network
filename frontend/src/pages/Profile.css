@@ -1,0 +1,20 @@
+div {
+  color: whitesmoke;
+}
+
+.posts-container {
+  background-color: black;
+  color: whitesmoke;
+  height: 100%;
+}
+
+.profile-container {
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+}
+
+.carousel-item img {
+  display: block;
+  margin: 0 auto;
+}

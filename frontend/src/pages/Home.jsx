@@ -89,7 +89,7 @@ const Home = () => {
               {getTimeSince(new Date(post.created_at))}
             </Card.Header>
             <Card.Body>
-              <Carousel>
+              <Carousel controls={post.post_imgs.length > 1}>
                 {post.post_imgs.map((image, index) =>
                   <Carousel.Item key={image.id || image.image}>
                     <img

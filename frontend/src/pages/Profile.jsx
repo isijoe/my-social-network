@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Row, Col, Carousel, Button, Card } from 'react-bootstrap';
+import { Container, Row, Col, Carousel, Button, Card, Image } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../authProvider';
 import { fetchWithToken } from '../apiUtils';
 import Create from './Create';
+import EditProfile from './EditProfile';
+import './Profile.css';
 
 const Profile = () => {
   const { isLoggedIn, isLoading, loggedInUserId } = useAuth();
@@ -13,6 +15,7 @@ const Profile = () => {
   let { profileId } = useParams();
   const API = process.env.REACT_APP_API || 'http://localhost/api/'
   const [modalShow, setModalShow] = useState(false);
+  const [modalShowEditProfile, setModalShowEditProfile] = useState(false);
 
 
   const getData = useCallback(async () => {
@@ -72,19 +75,22 @@ const Profile = () => {
     <Container className='mt-3'>
       <Row md={3}>
         <Col>
-          <img className="rounded-circle" style={{ width: "150px", height: "150px" }}
+          <Image roundedCircle style={{ width: "150px", height: "150px" }}
             src={profile.profile_picture ? profile.profile_picture : 'images/def_prof_pic.jpg'}
             alt=""
           />
         </Col>
         <Col>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div className="profile-container" >
             <h2>{profile.username}</h2>
             {(isLoggedIn) && (loggedInUserId === profileId) &&
-              <Button variant="primary">+ Edit Profile</Button>
+              <div>
+                <Button variant="primary" onClick={() => setModalShowEditProfile(true)}>+ Edit Profile</Button>
+                <EditProfile show={modalShowEditProfile} onHide={() => { setModalShowEditProfile(false); getData(); }} profile={profile} />
+              </div>
             }
           </div>
-          <p>Bio: <br />{profile.bio}</p>
+          <p><br />{profile.bio}</p>
 
           <h3>Follower: </h3>
           <p>{profile.followers}</p>
@@ -100,18 +106,19 @@ const Profile = () => {
           <br />
         </Col>
       </Row>
+      <br />
       <Row xs={9}>
         {profile.post_set.map((post) =>
           <Col lg={4} key={post.id}>
-            <Card>
-              <Carousel>
+            <Card className="posts-container">
+              <Carousel controls={post.post_imgs.length > 1}>
                 {post.post_imgs.map((image, index) =>
                   <Carousel.Item key={image.id || image.image}>
-                    <img
-                      className="thumbnail"
+                    <Image
                       style={{ width: "200px", height: "200px" }}
                       src={image.image}
                       alt={image.alt}
+                      thumbnail
                     />
                   </Carousel.Item>
                 )}
@@ -119,7 +126,7 @@ const Profile = () => {
               <Card.Body>
                 <Card.Text><strong>{post.caption.slice(0, 5)} from {new Date(post.created_at).toLocaleDateString()}</strong></Card.Text>
                 {(isLoggedIn) && (loggedInUserId === profileId) &&
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div className="profile-container">
                     <Button variant="danger" onClick={() => deletePost(post.id)}>Delete</Button>
                     {/* <Button variant="warning" href={`/post_edit/${post.id}`}>Edit</Button> */}
                     <Link to={`/post_edit/${post.id}`} className="btn btn-warning">Edit</Link>
