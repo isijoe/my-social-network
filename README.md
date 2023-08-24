@@ -18,8 +18,8 @@ Demo: [**mysocialnetwork.dev**](https://mysocialnetwork.dev)
 
 ## Todo
 
-- [] Messages between users
-- [] Share posts function
-- [] Notifications
-- [] Respond to a comment
-- [] Like a comment
+- [ ] Messages between users
+- [ ] Share posts function
+- [ ] Notifications
+- [ ] Respond to a comment
+- [ ] Like a comment
