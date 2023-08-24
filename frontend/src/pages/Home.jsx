@@ -83,7 +83,7 @@ const Home = () => {
           <Card border="info" className="feed-container">
             <Card.Header as="h3" className="header-card">
               <div>
-                <img src={post.user} alt="" className="rounded-circle" style={{ width: '30px', height: '30px' }} />
+                {/* <img src={post.user} alt={post.user} className="rounded-circle" style={{ width: '30px', height: '30px' }} /> */}
                 @{post.user}
               </div>
               {getTimeSince(new Date(post.created_at))}

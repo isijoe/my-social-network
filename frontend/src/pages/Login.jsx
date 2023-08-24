@@ -92,6 +92,11 @@ const Login = () => {
           </div>
         )}
       <Button className="btn-nav" onClick={e => handleRegistrationToggle(e)}>Register</Button>
+      <div className="center">
+          <p style={{color: 'red', fontSize: '24px'}}>Test account:</p>
+          <p>Email: public@email.com</p>
+          <p>Password: dummy123</p>
+      </div>
     </div>
   );
 };
