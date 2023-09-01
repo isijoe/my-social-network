@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from '../authProvider';
 import { ProtectedRoute } from "./ProtectedRoute";
-import { Home, Profile, Search, Explore, Messages, Create } from '../pages'
+import { Home, Profile, Search, Explore, Messages, Create } from '../pages';
 import Login from '../pages/Login';
 
 const Routes = () => {

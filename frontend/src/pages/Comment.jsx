@@ -1,10 +1,32 @@
-import React, { useState } from "react";
-import { Modal, Carousel, Form, Button, Col, Container, Row } from 'react-bootstrap';
+import React, { useState, useEffect, useCallback } from "react";
 import { fetchWithToken } from '../apiUtils';
+import { Form } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 const Comment = (props) => {
-  const API = process.env.REACT_APP_API || 'http://localhost/api/'
-  const [post, setPost] = useState(props.post)
+  const API = process.env.REACT_APP_API || 'http://localhost/api/';
+  const [post, setPost] = useState(null);
+  const { selectedPost } = props;
+  const navigate = useNavigate();
+
+  let loadPost = null;
+  let size = 99999;
+  if (props.isHome) {
+    size = 3;
+  };
+
+  useEffect(() => {
+    if (selectedPost) {
+      loadPost();
+    }
+  }, [selectedPost, loadPost]);
+
+  loadPost = useCallback(async () => {
+    if (!selectedPost) {
+      return;
+    }
+    setPost(selectedPost);
+  }, [selectedPost]);
 
   const handleKeyPress = async (e) => {
     if (e.charCode === 13) {
@@ -18,60 +40,32 @@ const Comment = (props) => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Problem beim Erstellen eines Kommentars', errorData);
+        console.error('Error creating comment:', errorData);
       } else {
         e.target.value = '';
         const response = await fetchWithToken(`${API}posts/api/${post.id}/`);
-        const responseData = await response.json();
-        setPost(responseData);
+        const data = await response.json();
+        setPost(data);
       }
     }
   };
 
   return (
-    <Modal
-      {...props}
-      centered
-      fullscreen
-    >
-      <Modal.Header closeButton>
-        <Modal.Title className="modal-title">
-          Comment
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body >
-        <Container>
-          <Row>
-            <Col>
-              <Carousel>
-                {post.post_imgs.map((url, index) => (
-                  <Carousel.Item key={index}>
-                    <img className="d-block w-100" src={url.image} alt="First slide" />
-                  </Carousel.Item>
-                ))}
-              </Carousel>
-            </Col>
-            <Col>
-              <Row>
-                <h2>@{props.post.user}</h2>
-              </Row>
-              <Row style={{ overflowY: 'auto', maxHeight: '200px' }}>
-                {post.comment_set.map((comment) => (
-
-                  <h6 key={comment.id}><b>{comment.user}</b> {comment.text}</h6>
-                ))}
-              </Row>
-              <Row>
-                <Form.Control type="text" placeholder="Add a comment..." onKeyPress={handleKeyPress} />
-              </Row>
-            </Col>
-          </Row>
-        </Container>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
-    </Modal>
+    <div className="post-detail__creator">
+      <div className="post-detail__comment-top">
+        <img src={post?.user.profile_picture} alt="" />
+        <span className="post-detail__post-creator"><b>{post?.user.username}</b> {post?.caption}</span>
+        {post?.comment_set && post?.comment_set.slice(0, size).map((comment) => (
+          <div onClick={() => { navigate(`/profile/${comment?.user.id}/`, { replace: true }); }}>
+            <img src={comment?.user.profile_picture} alt="" />
+            <span className="post-detail__post-creator"><b>{comment?.user.username}</b> {comment?.text}</span>
+          </div>))}
+      </div>
+      {props.isHome &&
+        <span onClick={props.isHome} className="post-detail__post-creator">Show all <b>{post?.comment_set.length}</b> comments</span>
+      }
+      <Form.Control className="post-detail__comment-top" type="text" placeholder="Add a comment..." onKeyPress={handleKeyPress} />
+    </div>
   );
 }
 

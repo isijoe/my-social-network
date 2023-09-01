@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../authProvider';
 import { Button, Form } from 'react-bootstrap';
 import './Login.css';
@@ -93,9 +93,9 @@ const Login = () => {
         )}
       <Button className="btn-nav" onClick={e => handleRegistrationToggle(e)}>Register</Button>
       <div className="center">
-          <p style={{color: 'red', fontSize: '24px'}}>Test account:</p>
-          <p>Email: public@email.com</p>
-          <p>Password: dummy123</p>
+        <p style={{ color: 'red', fontSize: '24px' }}>Test account:</p>
+        <p>Email: public@email.com</p>
+        <p>Password: dummy123</p>
       </div>
     </div>
   );

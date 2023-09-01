@@ -8,10 +8,63 @@ div {
   height: 100%;
 }
 
-.profile-container {
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between;
+.profile {
+  margin: 0 auto;
+  max-width: 60.9375rem;
+  /* padding-top: 4rem; */
+  width: 60.9375rem;
+}
+
+.user-profile {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  padding: 2rem 0;
+}
+
+.user-profile__left {
+  text-align: center;
+}
+
+.user-profile__left img {
+  border-radius: 75%;
+  height: 8rem;
+  object-fit: cover;
+  width: 8rem;
+}
+
+.user-profile__name {
+  align-items: center;
+  display: grid;
+  grid-template-columns: max-content max-content;
+}
+
+.user-profile__name span {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.user-profile__follow {
+  background: rgb(54,54,54);
+  border-radius: 8rem;
+  font-size: 0.875rem !important;
+  margin-left: 1.35rem;
+  padding: 0.5rem 0.75rem;
+}
+ 
+.user-profile__follow:hover {
+  cursor: pointer;
+}
+
+.user-profile__famous {
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: max-content max-content;
+  padding: 1rem 0;
+}
+
+.user-profile__famous-item-content {
+  font-weight: bold;
+  margin-right: 0.25rem;
 }
 
 .carousel-item img {

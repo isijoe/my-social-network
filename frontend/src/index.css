@@ -13,3 +13,359 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Home */
+/**************************************************/
+.feed-container {
+  width: 470px;
+  margin: 0 auto; 
+  background-color: black;
+  color: whitesmoke;
+}
+
+.feed-container div {
+  background-color: black;
+  color: whitesmoke;
+}
+
+.header-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-detail__reactions {
+  position: relative;
+  padding-bottom: 0;
+}
+
+.post-detail__reactions svg {
+  color: whitesmoke;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.post-detail__reactions svg:hover {
+  cursor: pointer;
+}
+
+.post-detail__reactions-count {
+  position: absolute;
+  color: whitesmoke;
+  border-radius: 50%; 
+  /* padding: 0px 3px;  */
+  font-size: 11px;
+  line-height: 12px;
+}
+
+.post-detail__dot-home {
+  background: whitesmoke;
+  border-radius: 50%;
+  height: 0.25rem;
+  margin-top: 0.25rem;
+  width: 0.25rem;
+}
+
+.post-detail__time-since {
+  color: darkgray;
+  font-weight: bold;
+}
+
+.post-detail__time-since:hover {
+  cursor: pointer;
+}
+/**************************************************/
+/* Home */
+
+/* Search */
+/**************************************************/
+.offcanvas {
+  max-width: 25vw!important;
+  background-color: black!important;
+  border-right: 1px solid darkgray!important;
+  color: whitesmoke;
+}
+/**************************************************/
+/* Search */
+
+/* Create */
+/**************************************************/
+/* The Modal (background) */
+.create-post {
+  background-color: rgba(255, 255, 255, 0.8);
+  display: block; /* Hidden by default */
+  height: 100%; /* Full height */
+  left: 0;
+  /* overflow: auto; */
+  position: fixed; /* Stay in place */
+  top: 0;
+  width: 100%; /* Full width */
+  z-index: 1; /* Sit on top */
+}
+
+/* Modal Content/Box */
+.create-post__content {
+  background-color: darkgray;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  margin: 15% auto; /* 15% from the top and centered */
+  margin-top: 10%;
+  width: 27rem; /* Could be more or less, depending on screen size */
+}
+
+.create-post__container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.create-post__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 1.25rem 0 0.5rem 1.25rem;
+}
+
+.create-post__close {
+  align-items: center;
+  display: grid;
+  justify-items: right;
+  padding: 1.25rem 1.25rem 0.5rem 0;
+}
+
+.create-post__close img:hover {
+  cursor: pointer;
+}
+
+.create-post__subtitle {
+  background: #e5e7eb;
+  height: 1px;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.create-post__form {
+  width: 100%;
+}
+
+.create-post__btn:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.create-post__image {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  row-gap: 2rem;
+}
+
+.create-post__image > div {
+  display: inline-block;
+  position: relative;
+}
+
+.create-post__image > div:hover {
+  cursor: pointer;
+}
+
+.create-post__image img {
+  border-radius: 0.5rem;
+  height: 15rem;
+  width: 100%;
+  object-fit: cover;
+}
+
+.create-post__image svg {
+  height: 1.5rem;
+  position: absolute;
+  right: -0.5rem;
+  top: -0.5rem;
+  width: 1.5rem;
+}
+
+.create-post__image svg:hover {
+  cursor: pointer;
+}
+
+.create-post__image-picker {
+  text-align: center;
+  padding: 2rem;
+}
+
+.create-post__image-picker:hover {
+  cursor: pointer;
+}
+
+.create-post__image-picker p {
+  padding: 1rem 0;
+}
+
+.create-post__footer {
+  align-items: center;
+  background-color: darkgray;
+  display: grid;
+  font-weight: bold;
+  grid-template-columns: max-content max-content;
+  justify-content: right;
+  padding: 1rem;
+}
+
+.create-post__upload {
+  background: #3b82f6;
+  border-radius: 0.25rem;
+  color: #fff;
+  font-size: 0.9375rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.create-post__upload:hover {
+  cursor: pointer;
+}
+/**************************************************/
+/* Create */
+
+/* Post */
+/**************************************************/
+.posts {
+  background-color: black!important;
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 auto;
+  max-width: 60.9375rem;
+  min-height: 100vh;
+  overflow: auto;
+  padding: 2rem 0.75rem;
+  width: 60.9375rem;
+  padding-top: 5rem;
+}
+
+.post img {
+  height: 18.5rem;
+  object-fit: cover;
+  width: 100%;
+}
+
+.post img:hover {
+  cursor: pointer;
+}
+
+/* The Modal (background) */
+.post-detail {
+  background-color: rgba(0, 0, 0, 0.8);
+  display: block;
+  height: 100%;
+  left: 0;
+  /* overflow: auto; */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Modal Content/Box */
+.post-detail__content {
+  margin: 15% auto;
+  margin-top: 2%;
+  width: 60rem;
+}
+
+.post-detail__container {
+  display: grid;
+}
+
+.post-detail__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 1.25rem 0 0.5rem 1.25rem;
+}
+
+.post-detail__close {
+  align-items: center;
+  display: grid;
+  justify-items: right;
+  padding: 1rem 0;
+}
+
+.post-detail__close svg {
+  color: #fff;
+  height: 2rem;
+  width: 2rem;
+}
+
+.post-detail__close svg:hover {
+  cursor: pointer;
+}
+
+.post-detail__main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.post-detail__main-left img {
+  height: 30rem;
+  object-fit: cover;
+  width: 100%;
+}
+
+.post-detail__main-right {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  max-height: 15rem;
+}
+
+.post-detail__creator {
+  align-items: center;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: max-content max-content max-content max-content;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.post-detail__comment-top {
+  grid-column-start: 1;
+  grid-column-end: none;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.post-detail__post-creator:hover {
+  cursor: pointer;
+}
+
+.post-detail__creator img {
+  border-radius: 50%;
+  height: 2rem;
+  object-fit: cover;
+  width: 2rem;
+}
+
+.post-detail__creator span {
+  font-size: 0.9375rem;
+  font-weight: bold;
+}
+
+.post-detail__dot {
+  background: whitesmoke;
+  border-radius: 50%;
+  height: 0.25rem;
+  margin-top: 0.25rem;
+  width: 0.25rem;
+}
+
+.post-detail__follow {
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+.post-detail__follow:hover {
+  cursor: pointer;
+}
+
+.post-detail__reactions-head {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-column-gap: 1rem;
+}
+/**************************************************/
+/* Post */
