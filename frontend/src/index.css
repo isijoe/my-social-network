@@ -17,21 +17,13 @@ code {
 /* Home */
 /**************************************************/
 .feed-container {
-  width: 470px;
+  background-color: black!important;
+  color: whitesmoke;
   margin: 0 auto; 
-  background-color: black;
-  color: whitesmoke;
-}
-
-.feed-container div {
-  background-color: black;
-  color: whitesmoke;
-}
-
-.header-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  max-width: 100%;
+  /* width: 630px; */
+  width: 470px;
+  overflow-x: auto;
 }
 
 .post-detail__reactions {
@@ -327,6 +319,12 @@ code {
   grid-column-end: none;
   overflow-y: auto;
   max-height: 200px;
+  max-width: 100%;
+  max-width: 410px;
+}
+
+.post-detail__comment-top p {
+  display: inline;
 }
 
 .post-detail__post-creator:hover {

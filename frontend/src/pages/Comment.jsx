@@ -48,6 +48,9 @@ const Comment = (props) => {
         setPost(data);
       }
     }
+    if (props.loadPosts) {
+      props.loadPosts();
+    }
   };
 
   return (
@@ -58,7 +61,7 @@ const Comment = (props) => {
         {post?.comment_set && post?.comment_set.slice(0, size).map((comment) => (
           <div onClick={() => { navigate(`/profile/${comment?.user.id}/`, { replace: true }); }}>
             <img src={comment?.user.profile_picture} alt="" />
-            <span className="post-detail__post-creator"><b>{comment?.user.username}</b> {comment?.text}</span>
+            <p><span className="post-detail__post-creator"><b>{comment?.user.username}</b> {comment?.text}</span></p>
           </div>))}
       </div>
       {props.isHome &&

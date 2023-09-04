@@ -15,9 +15,10 @@ const Posts = (props) => {
 
   const handleLike = async (postId) => {
     const response = await like(postId);
-    // if (response.ok) {
-    //   loadPosts();
-    // }
+    if (response.ok && props?.isHome) {
+      // loadPosts();
+      props?.isHome();
+    }
   }
 
   const onItemClicked = (post) => {
@@ -25,7 +26,7 @@ const Posts = (props) => {
       return;
     }
     setSelectedPost(post);
-    show(true, { selectedPost: post, handleLike: handleLike });
+    show(true, { selectedPost: post, handleLike: handleLike, loadPosts: props?.isHome });
   };
 
   if (!posts || !posts.length) {
@@ -75,7 +76,7 @@ const Posts = (props) => {
                     </Col>
                   </Row>
                   <Row>
-                    <Comment selectedPost={post} isHome={() => onItemClicked(post)} />
+                    <Comment selectedPost={post} isHome={() => onItemClicked(post)} loadPosts={props?.isHome} />
                   </Row>
                 </Container>
               </Card.Footer>
